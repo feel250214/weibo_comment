@@ -9,18 +9,19 @@ import jieba
 import pandas as pd
 ILLEGAL_CHARACTERS_RE = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]')
 
-def word_frequency_xlsx(xls_name='weibo_comment.xlsx'):
-    df = pd.read_excel(xls_name)  # 读取 Excel 文件
+def word_frequency_xlsx(xlsx_name='weibo_comment.xlsx'):
+    df = pd.read_excel(xlsx_name)  # 读取 Excel 文件
+    txt_name = "xlsx_to_txt.txt"
     m = 1
-    with open('xlsx_to_txt', 'w', encoding="utf-8") as fp:  # 清空文件
+    with open(txt_name, 'w', encoding="utf-8") as fp:  # 清空文件
         pass
 
     while m < len(df):
         data = df.iloc[m, 0]  # 直接获取数据
-        with open('xlsx_to_txt', 'a', encoding="utf-8") as fp:  # 追加模式
+        with open(txt_name, 'a', encoding="utf-8") as fp:  # 追加模式
             fp.writelines(str(data) + '\n')  # 每行数据换行
         m += 1  # 递增索引
-    word_frequency_txt("xlsx_to_txt")
+    word_frequency_txt(txt_name)
 
 
 def word_frequency_txt(txt_name='weibo_comment.txt'):
@@ -31,7 +32,7 @@ def word_frequency_txt(txt_name='weibo_comment.txt'):
         stopwords = set(line.strip() for line in f)
 
     # 读入文件
-    with open('weibo_comment.txt', encoding="utf-8") as f:
+    with open(txt_name, encoding="utf-8") as f:
         text = f.read()
 
     ls = jieba.lcut(text, cut_all=True)  # 分词
@@ -249,22 +250,24 @@ def loop_get_comment(encoded, page=50):
 
 if __name__ == '__main__':
     # 得到mid、uid、url
-    headers = {
-        "Referer": "https://weibo.com/",  # 用于告诉服务器请求来源的页面(需要则修改
-        "Cookie": "换成自己最新的cookie",
-        # 报错则更新
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
-        # 可不动
-    }
+    if __name__ == '__main__':
+        # 得到mid、uid、url
+        headers = {
+            "Referer": "https://weibo.com/",  # 用于告诉服务器请求来源的页面(需要则修改
+            "Cookie": "换成自己最新的cookie",
+            # 报错则更新
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+            # 可不动
+        }
     comment_list = []
     location_list = []
     like_list = []
     total_num = 0
 
-    keyword_list = ['充电桩']    #写所需的关键词
+    keyword_list = ['充电桩']
     encoded_list = text_to_encoded(keyword_list)
 
-    page = 50           # 页数为2-50页，其他页数都为第一页
+    page = 2           # 页数为2-50页，其他页数都是抓取第一页
     for encoded in encoded_list:
         loop_get_comment(encoded, page)
     print("微博显示的总数据量" + str(total_num))    # 微博显示的总数据量
