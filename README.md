@@ -34,4 +34,4 @@ pip install openpyxl requests beautifulsoup4 jieba pandas
 
 ## 支援
 如果可以希望能给个喝水费：
-![收款码](https://github.com/user-attachments/assets/ea80b45c-dde0-466e-ad85-e1eadd972b6b){: style="width:600px; height:400px;" }
+<img src="https://github.com/user-attachments/assets/ea80b45c-dde0-466e-ad85-e1eadd972b6b" alt="收款码" width="600" height="400">
