@@ -2,7 +2,7 @@
 
 这是一个基于 Python 的微博评论爬取与词频统计工具。  
 主要功能包括：
-- 自动爬取微博关键词下的评论、地址及点赞数，并保存至 Excel 或 txt 文件。
+- 自动爬取微博关键词下的评论、子评论、地址及点赞数，并保存至 Excel 或 txt 文件。
 - 支持对评论内容进行词频统计，并过滤常见停用词。
 
 ---
@@ -29,6 +29,11 @@
 ```bash
 pip install openpyxl requests beautifulsoup4 jieba pandas
 ```
+
+---
+
+## 使用方法
+更改Cookie，然后将所需的关键词填入keyword_list中，之后运行就行（应该吧，如果需要再改其他内容。
 
 ---
 
