@@ -44,7 +44,7 @@ def word_frequency_txt(txt_name='weibo_comment.txt'):
         counts.pop(word, 0)
     ls1 = sorted(counts.items(), key=lambda x: x[1], reverse=True)  # 词频排序
     # 输出
-    print(ls1[-1])
+    print(ls1)
     with open(txt_name, 'w', encoding="utf-8") as fp:
         fp.writelines(str(ls1) + '\n')
 
