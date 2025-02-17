@@ -251,7 +251,7 @@ if __name__ == '__main__':
     # 得到mid、uid、url
     headers = {
         "Referer": "https://weibo.com/",  # 用于告诉服务器请求来源的页面(需要则修改
-        "Cookie": "SINAGLOBAL=5287838024056.41.1710057842008; UOR=,,www.bing.com; _s_tentry=weibo.com; Apache=291155098540.87177.1739781703840; ULV=1739781703877:10:7:2:291155098540.87177.1739781703840:1739683492020; ALF=1742396799; SUB=_2A25KtyAvDeRhGeNN4lUY9CjPzzqIHXVpzT3nrDV8PUJbkNB-LWbskW1NSZXtpQRxRdEPMWXNUJtXI4RyVRCkjeXs; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WhFF7umwXzmT88guVNTU6NN5JpX5KMhUgL.Fo-01KM4Shq0Shq2dJLoIp7LxKML1KBLBKnLxKqL1hnLBoMfe0.N1KBce0Bc",
+        "Cookie": "换成自己最新的cookie",
         # 报错则更新
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
         # 可不动
@@ -261,10 +261,10 @@ if __name__ == '__main__':
     like_list = []
     total_num = 0
 
-    keyword_list = ['充电桩']
+    keyword_list = ['充电桩']    #写所需的关键词
     encoded_list = text_to_encoded(keyword_list)
 
-    page = 50           # 页数最多50页，其他页数都为第一页
+    page = 50           # 页数为2-50页，其他页数都为第一页
     for encoded in encoded_list:
         loop_get_comment(encoded, page)
     print("微博显示的总数据量" + str(total_num))    # 微博显示的总数据量
