@@ -33,10 +33,10 @@ pip install openpyxl requests beautifulsoup4 jieba pandas
 ---
 
 ## 使用方法
-更改Cookie，然后将所需的关键词填入keyword_list中，之后运行就行（应该吧，如果需要再改其他内容。
+更改Cookie，然后将所需的关键词填入keyword_list中，之后运行就行（应该吧）如果需要再改其他内容。
 
 ---
 
-## 支援
+## 请求支援
 如果可以希望能给个喝水费：
 - <img src="https://github.com/user-attachments/assets/ea80b45c-dde0-466e-ad85-e1eadd972b6b" alt="收款码" width="200" height="200">
