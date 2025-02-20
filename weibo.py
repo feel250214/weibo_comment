@@ -13,8 +13,8 @@ def word_frequency_xlsx(xlsx_name='weibo_comment.xlsx'):
     df = pd.read_excel(xlsx_name)  # 读取 Excel 文件
     txt_name = "xlsx_to_txt.txt"
     m = 1
-    with open(txt_name, 'w', encoding="utf-8") as fp:  # 清空文件
-        pass
+    # with open(txt_name, 'w', encoding="utf-8") as fp:  # 清空文件
+    #     pass
 
     while m < len(df):
         data = df.iloc[m, 0]  # 直接获取数据
@@ -46,9 +46,8 @@ def word_frequency_txt(txt_name='weibo_comment.txt'):
     ls1 = sorted(counts.items(), key=lambda x: x[1], reverse=True)  # 词频排序
     # 输出
     print(ls1)
-    with open(txt_name, 'w', encoding="utf-8") as fp:
+    with open('word_frequency.txt', 'w', encoding="utf-8") as fp:
         fp.writelines(str(ls1) + '\n')
-
 def save_to_txt(comment_list, txt_name='weibo_comment.txt'):
     """
     保存评论到txt，不保存地址和点赞数
@@ -88,7 +87,7 @@ def get_son_comment(max_id2, id2, uid2):
     :return: max_id2
     """
     url = f"https://weibo.com/ajax/statuses/buildComments?flow=0&is_reload=1&id={id2}&is_show_bulletin=2&is_mix=1&fetch_level=1&max_id= {max_id2}&count=20&uid={uid2}&locale=zh-CN"
-    rep3 = requests.get(url, headers=headers)
+    rep3 = request_weibo(url)
     rep3.encoding = "utf-8"
     comment2 = rep3.json()
     data2 = comment2['data']
@@ -221,7 +220,7 @@ def text_to_encoded(keyword_list):
 
 def loop_get_comment(encoded, page=50):
     """
-    循环获取50页数据
+    循环获取“page”页数据
     """
     global total_num
     search_url = 'https://s.weibo.com/weibo?q=' + str(encoded)
@@ -249,25 +248,22 @@ def loop_get_comment(encoded, page=50):
 
 
 if __name__ == '__main__':
-    # 得到mid、uid、url
-    if __name__ == '__main__':
-        # 得到mid、uid、url
-        headers = {
-            "Referer": "https://weibo.com/",  # 用于告诉服务器请求来源的页面(需要则修改
-            "Cookie": "换成自己最新的cookie",
-            # 报错则更新
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
-            # 可不动
-        }
+    headers = {
+        "Referer": "https://weibo.com/",  # 用于告诉服务器请求来源的页面(需要则修改
+        "Cookie": "更换新Cookie",
+        # 报错则更新
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+        # 可不动
+    }
     comment_list = []
     location_list = []
     like_list = []
     total_num = 0
 
-    keyword_list = ['充电桩']
+    keyword_list = ['新能源汽车']
     encoded_list = text_to_encoded(keyword_list)
 
-    page = 2           # 页数为2-50页，其他页数都是抓取第一页
+    page = 50           # 页数为2-50页，其他页数都是抓取第一页
     for encoded in encoded_list:
         loop_get_comment(encoded, page)
     print("微博显示的总数据量" + str(total_num))    # 微博显示的总数据量
