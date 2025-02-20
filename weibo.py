@@ -7,9 +7,11 @@ from bs4 import BeautifulSoup
 import random
 import jieba
 import pandas as pd
+
 ILLEGAL_CHARACTERS_RE = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]')
 
-def word_frequency_xlsx(xlsx_name='weibo_comment.xlsx'):
+
+def word_frequency_xlsx(xlsx_name='weibo_comments.xlsx'):
     df = pd.read_excel(xlsx_name)  # 读取 Excel 文件
     txt_name = "xlsx_to_txt.txt"
     m = 1
@@ -24,11 +26,11 @@ def word_frequency_xlsx(xlsx_name='weibo_comment.xlsx'):
     word_frequency_txt(txt_name)
 
 
-def word_frequency_txt(txt_name='weibo_comment.txt'):
+def word_frequency_txt(txt_name='weibo_comments.txt'):
     """
     统计词频
     """
-    with open('baidu_stopwords.txt', 'r', encoding='utf-8') as f:   #读入停用词文件
+    with open('baidu_stopwords.txt', 'r', encoding='utf-8') as f:  # 读入停用词文件
         stopwords = set(line.strip() for line in f)
 
     # 读入文件
@@ -46,9 +48,11 @@ def word_frequency_txt(txt_name='weibo_comment.txt'):
     ls1 = sorted(counts.items(), key=lambda x: x[1], reverse=True)  # 词频排序
     # 输出
     print(ls1)
-    with open('word_frequency.txt', 'w', encoding="utf-8") as fp:
+    with open('weibo_word_frequency.txt', 'w', encoding="utf-8") as fp:
         fp.writelines(str(ls1) + '\n')
-def save_to_txt(comment_list, txt_name='weibo_comment.txt'):
+
+
+def save_to_txt(comment_list, txt_name='weibo_comments.txt'):
     """
     保存评论到txt，不保存地址和点赞数
     """
@@ -56,9 +60,10 @@ def save_to_txt(comment_list, txt_name='weibo_comment.txt'):
         pass
     with open(txt_name, 'a', encoding='utf-8') as f:  # 追加模式
         for comment in comment_list:
-            f.write(comment + '\n')     # 每行数据换行
+            f.write(comment + '\n')  # 每行数据换行
 
-def save_to_excel(comment_list, location_list, like_list, xls_name='weibo_comment.xlsx'):
+
+def save_to_excel(comment_list, location_list, like_list, xls_name='weibo_comments.xlsx'):
     """
     保存数据到excel
     """
@@ -75,7 +80,6 @@ def save_to_excel(comment_list, location_list, like_list, xls_name='weibo_commen
         sheet.cell(row, 3).value = like_list[i]
         row += 1
     book.save(xls_name)
-
 
 
 def get_son_comment(max_id2, id2, uid2):
@@ -104,6 +108,7 @@ def get_son_comment(max_id2, id2, uid2):
     max_id2 = str(comment2['max_id'])
     rep3.close()
     return max_id2
+
 
 def get_comment(count, max_id1, id1, uid1):
     """
@@ -172,6 +177,7 @@ def request_weibo(search_url):
                 print(e)
                 break
             continue
+
 
 def get_url_mid_id(search_url):
     """
@@ -245,8 +251,6 @@ def loop_get_comment(encoded, page=50):
                     break
 
 
-
-
 if __name__ == '__main__':
     headers = {
         "Referer": "https://weibo.com/",  # 用于告诉服务器请求来源的页面(需要则修改
@@ -263,20 +267,19 @@ if __name__ == '__main__':
     keyword_list = ['新能源汽车']
     encoded_list = text_to_encoded(keyword_list)
 
-    page = 50           # 页数为2-50页，其他页数都是抓取第一页
+    page = 50  # 页数为2-50页，其他页数都是抓取第一页
     for encoded in encoded_list:
         loop_get_comment(encoded, page)
-    print("微博显示的总数据量" + str(total_num))    # 微博显示的总数据量
-    print("去除屏蔽、删除后实际能抓取的数据量" + str(len(comment_list)))    # 去除屏蔽、删除后实际能抓取的数据量
+    print("微博显示的总数据量" + str(total_num))  # 微博显示的总数据量
+    print("去除屏蔽、删除后实际能抓取的数据量" + str(len(comment_list)))  # 去除屏蔽、删除后实际能抓取的数据量
     # 保存于excel
     save_to_excel(comment_list, location_list, like_list)
     word_frequency_xlsx()
-
 
     # # 保存于txt，并统计词频
     # save_to_txt(comment_list)
     # word_frequency_txt()
 
-    # txt_name = 'weibo_comment.txt'   # 默认为weibo_comment.txt
+    # txt_name = 'weibo_comments.txt'   # 默认为weibo_comments.txt
     # save_to_txt(comment_list, txt_name=txt_name)
     # word_frequency_txt(txt_name=txt_name)
